@@ -1,4 +1,5 @@
 import Router, { Response, Request, NextFunction } from 'express'
+import { StatusCodes } from 'http-status-codes'
 
 const usersRouter = Router()
 
@@ -8,7 +9,7 @@ usersRouter.get('/users', (req: Request, res: Response, next: NextFunction) => {
             userName: 'Octa'
         }
     ]
-    res.status(200).send(users)
+    res.status(StatusCodes.OK).send(users)
 })
 
 usersRouter.get('/users/:uuid', (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
