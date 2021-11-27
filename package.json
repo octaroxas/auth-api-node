@@ -1,0 +1,30 @@
+{
+  "name": "ms-autenticacao",
+  "version": "1.0.0",
+  "description": "Microservico de autenticacao desenvolvido no bootcamp fullstack eduzz da DIO",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./",
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/octaroxas/auth-api-node.git"
+  },
+  "keywords": [
+    "api",
+    "node",
+    "authentication"
+  ],
+  "author": "Oitao Purple",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/octaroxas/auth-api-node/issues"
+  },
+  "homepage": "https://github.com/octaroxas/auth-api-node#readme",
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "typescript": "^4.5.2"
+  }
+}
