@@ -9,7 +9,7 @@ usersRouter.get('/users', (req: Request, res: Response, next: NextFunction) => {
             userName: 'Octa'
         }
     ]
-    res.status(StatusCodes.OK).send(users)
+    res.status(StatusCodes.OK).json(users)
 })
 
 usersRouter.get('/users/:uuid', (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
@@ -21,7 +21,13 @@ usersRouter.get('/users/:uuid', (req: Request<{uuid: string}>, res: Response, ne
     const uuid  = req.params.uuid
 
     const user = { uuid: uuid, userName: 'Octa' }
-    res.status(200).send(user)
+    res.status(200).json(user)
+})
+
+usersRouter.post('/users', (req: Request, res: Response, next: NextFunction) => {
+    const user = req.body
+    res.status(StatusCodes.CREATED).json(user)
+
 })
 
 export default usersRouter;
