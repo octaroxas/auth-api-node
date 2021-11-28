@@ -9,7 +9,7 @@ usersRouter.get('/users', async (req: Request, res: Response, next: NextFunction
     res.status(StatusCodes.OK).json(users)
 })
 
-usersRouter.get('/users/:uuid', (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
+usersRouter.get('/users/:uuid', async (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
     
     // podemos definir qual o formato o objeto request deve possuir
     // Nesse caso estou dizendo que na requisição é esperado o parametro uuid
@@ -17,7 +17,7 @@ usersRouter.get('/users/:uuid', (req: Request<{uuid: string}>, res: Response, ne
 
     const uuid  = req.params.uuid
 
-    const user = { uuid: uuid, userName: 'Octa' }
+    const user = await userRepository.findById(uuid)
     res.status(StatusCodes.OK).json(user)
 })
 
