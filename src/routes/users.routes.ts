@@ -1,5 +1,6 @@
 import Router, { Response, Request, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
+import db from '../database/db'
 import userRepository from '../repositories/user.repository'
 
 const usersRouter = Router()
@@ -21,22 +22,23 @@ usersRouter.get('/users/:uuid', async (req: Request<{uuid: string}>, res: Respon
     res.status(StatusCodes.OK).json(user)
 })
 
-usersRouter.post('/users', (req: Request, res: Response, next: NextFunction) => {
-    const user = req.body
-    res.status(StatusCodes.CREATED).json(user)
+usersRouter.post('/users', async (req: Request, res: Response, next: NextFunction) => {
+    const userUuid = await userRepository.create(req.body)
+    res.status(StatusCodes.CREATED).json(userUuid)
 
 })
 
-usersRouter.put('/users/:uuid', (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
+usersRouter.put('/users/:uuid', async (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
     const uuid = req.params.uuid
-    const user = { uuid: uuid, msg: 'User alterado' }
-    res.status(StatusCodes.OK).json(user)
+    const { username, password } = req.body
+    await userRepository.update({username, password, uuid})
+    res.status(StatusCodes.OK).json()
 })
 
-usersRouter.delete('/users/:uuid', (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
+usersRouter.delete('/users/:uuid', async (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
     const uuid = req.params.uuid
-    const user = { uuid: uuid, msg: 'User deletado' }
-    res.status(StatusCodes.OK).json(user)
+    await userRepository.remove(uuid)
+    res.status(StatusCodes.OK).json()
 })
 
 export default usersRouter;
