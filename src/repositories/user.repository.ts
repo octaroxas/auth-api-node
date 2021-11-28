@@ -1,5 +1,6 @@
 import db from "../database/db";
 import User from "../models/user.model";
+import  DatabaseError from "./../models/errors/database.error.model";
 
 class UserRepository {
     //Tipo de retorno da função: Array de objetos User
@@ -47,13 +48,20 @@ class UserRepository {
     }
 
     async remove(uuid: string): Promise<void>{
-        const query = `
+
+        try {
+
+            const query = `
             delete from application_user
             where uuid = $1
         `
-
         const values = [uuid]
         await db.query(query, values)
+
+        } catch(err) {
+            throw new DatabaseError("Não foi possivel excluir")
+            console.log(err)
+        }
     }
 }
 

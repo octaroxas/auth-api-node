@@ -1,5 +1,6 @@
 import Router, { Response, Request, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
+import { DatabaseError } from 'pg-protocol'
 import db from '../database/db'
 import userRepository from '../repositories/user.repository'
 
@@ -36,9 +37,18 @@ usersRouter.put('/users/:uuid', async (req: Request<{uuid: string}>, res: Respon
 })
 
 usersRouter.delete('/users/:uuid', async (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
-    const uuid = req.params.uuid
-    await userRepository.remove(uuid)
-    res.status(StatusCodes.OK).json()
+    try {
+        const uuid = req.params.uuid
+        await userRepository.remove(uuid)
+        res.status(StatusCodes.OK).json()
+    } catch(err) {
+        if(err instanceof DatabaseError) {
+            // uuid incorreto - erro do lado do cliente
+            res.sendStatus(StatusCodes.BAD_REQUEST)
+        } else {
+            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR)
+        }
+    }
 })
 
 export default usersRouter;
