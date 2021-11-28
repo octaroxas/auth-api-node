@@ -21,13 +21,25 @@ usersRouter.get('/users/:uuid', (req: Request<{uuid: string}>, res: Response, ne
     const uuid  = req.params.uuid
 
     const user = { uuid: uuid, userName: 'Octa' }
-    res.status(200).json(user)
+    res.status(StatusCodes.OK).json(user)
 })
 
 usersRouter.post('/users', (req: Request, res: Response, next: NextFunction) => {
     const user = req.body
     res.status(StatusCodes.CREATED).json(user)
 
+})
+
+usersRouter.put('/users/:uuid', (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
+    const uuid = req.params.uuid
+    const user = { uuid: uuid, msg: 'User alterado' }
+    res.status(StatusCodes.OK).json(user)
+})
+
+usersRouter.delete('/users/:uuid', (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
+    const uuid = req.params.uuid
+    const user = { uuid: uuid, msg: 'User deletado' }
+    res.status(StatusCodes.OK).json(user)
 })
 
 export default usersRouter;
