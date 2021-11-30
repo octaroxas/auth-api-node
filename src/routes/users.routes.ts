@@ -42,12 +42,7 @@ usersRouter.delete('/users/:uuid', async (req: Request<{uuid: string}>, res: Res
         await userRepository.remove(uuid)
         res.status(StatusCodes.OK).json()
     } catch(err) {
-        if(err instanceof DatabaseError) {
-            // uuid incorreto - erro do lado do cliente
-            res.sendStatus(StatusCodes.BAD_REQUEST)
-        } else {
-            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR)
-        }
+        next(err)
     }
 })
 

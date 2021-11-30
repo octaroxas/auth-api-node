@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction}  from 'express'
 import usersRouter from './routes/users.routes';
+import errorHandler from './middlewares/error.handler.middlewares';
 
 const PORT = 3333;
 
@@ -9,6 +10,9 @@ app.use(express.json())
 // faz com que parametros passados pela url sejam entendidos, query params por exemplpo
 app.use(express.urlencoded({extended:true}))
 app.use(usersRouter)
+
+// COnfigura o middleware de error
+app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`Server is running! in http://localhost:${PORT}`)
