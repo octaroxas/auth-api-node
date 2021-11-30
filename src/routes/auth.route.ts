@@ -10,9 +10,24 @@ auth.post('/token', (req: Request, res: Response, next: NextFunction) => {
         
         if(!authHeader) {
             throw new ForbiddenError("Credenciais não informadas!")
-        } else {
-            res.json(authHeader)
+        } 
+
+        const [authType, token] = authHeader.split(' ');
+
+        if(authType !== 'Basic' || !token ) {
+            throw new ForbiddenError('Tipo de autenticação inválida!')
         }
+
+        // o token base64 é desemcriptado e armazenado em tokenContent como uma string
+        const tokenContent = Buffer.from(token,'base64').toString('utf-8')
+
+        // tokenContent = username:password
+        const [username, password] = tokenContent.split(':')
+
+        if(!username || !password) {
+            throw new ForbiddenError("Credenciais não informadas");
+        }
+        
 
     } catch(error) {
         next(error);
