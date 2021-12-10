@@ -1,7 +1,8 @@
 import { Request, Response, Router, NextFunction } from "express";
 import ForbiddenError from "../models/errors/forbidden.error.model";
 import userRepository from "../repositories/user.repository";
-import db from './../database/db'
+import JWT from 'jsonwebtoken'
+import { StatusCodes } from "http-status-codes";
 
 const auth = Router();
 
@@ -32,9 +33,15 @@ auth.post('/token', async (req: Request, res: Response, next: NextFunction) => {
 
         const user = await userRepository.getUserByCredentials(username, password)
         
-        res.json(user)
+        if(!user) {
+            throw new ForbiddenError('Usuario ou senha incorretos!')
+        }
+
+        const payload = {username: user.username}
+        const options =  {subject: user?.uuid}
         
-        
+        const jwt = JWT.sign(payload,'secret-hash',options)
+        res.status(StatusCodes.OK).json({token: jwt})
 
     } catch(error) {
         next(error);
