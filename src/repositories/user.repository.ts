@@ -63,9 +63,23 @@ class UserRepository {
             console.log(err)
         }
     }
+
+    async getUserByCredentials(username: string, password: string): Promise<User | null>{
+        try {
+            const query = `
+            SELECT uuid, username FROM application_user WHERE username=$1 AND password = crypt($2,'secret-hash');
+        `
+        const values = [username, password]
+
+        const { rows } = await db.query<User>(query,values)
+        const [user] = rows
+        return !user? null: user;
+
+        } catch(err) {
+            throw new DatabaseError('Erro ao buscar usuario a partir das credenciais informadas' +  err)
+        }
+    }
 }
-
-
 
 /**
  * Esta sendo exportado uma instancia para manter o padrão singleton (apenas uma instancia)

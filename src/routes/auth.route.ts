@@ -1,9 +1,11 @@
 import { Request, Response, Router, NextFunction } from "express";
 import ForbiddenError from "../models/errors/forbidden.error.model";
+import userRepository from "../repositories/user.repository";
+import db from './../database/db'
 
 const auth = Router();
 
-auth.post('/token', (req: Request, res: Response, next: NextFunction) => {
+auth.post('/token', async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const authHeader = req.headers['authorization'];
@@ -27,6 +29,11 @@ auth.post('/token', (req: Request, res: Response, next: NextFunction) => {
         if(!username || !password) {
             throw new ForbiddenError("Credenciais não informadas");
         }
+
+        const user = await userRepository.getUserByCredentials(username, password)
+        
+        res.json(user)
+        
         
 
     } catch(error) {
