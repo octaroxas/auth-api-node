@@ -3,7 +3,7 @@ import { NextFunction, Response, Request} from 'express';
 import ForbiddenError from '../models/errors/forbidden.error.model';
 import userRepository from '../repositories/user.repository';
 
-export default async function bearerAuthenticationMiddleware(req: Request, res: Response, next: NextFunction) {
+export default async function jwtAuthenticationMiddleware(req: Request, res: Response, next: NextFunction) {
 
     try {
 
@@ -19,17 +19,21 @@ export default async function bearerAuthenticationMiddleware(req: Request, res: 
             throw new ForbiddenError('Tipo de autenticação inválida!')
         }
 
-        const tokenPayload = JWT.verify(token,'secret-hash')
+        try {
+            const tokenPayload = JWT.verify(token,'secret-hash')
 
-        if(typeof tokenPayload !== 'object' || !tokenPayload.sub) {
+            if(typeof tokenPayload !== 'object' || !tokenPayload.sub) {
+                throw new ForbiddenError('Token invalido!')
+            }
+
+            const uuid = tokenPayload.sub;
+            const user = await userRepository.findById(uuid)
+
+            req.user = user;
+            next()
+        } catch (error) {
             throw new ForbiddenError('Token invalido!')
         }
-
-        const uuid = tokenPayload.sub;
-        const user = await userRepository.findById(uuid)
-
-        req.user = user;
-        next()
     } catch (error) {
         next(error)
     }
