@@ -28,6 +28,7 @@ export default async function jwtAuthenticationMiddleware(req: Request, res: Res
 
             const uuid = tokenPayload.sub;
             const user = await userRepository.findById(uuid)
+            console.log(user)
 
             req.user = user;
             next()

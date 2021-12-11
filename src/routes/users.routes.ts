@@ -1,5 +1,6 @@
 import Router, { Response, Request, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
+import jwtAuthenticationMiddleware from '../middlewares/jwt-authentication.middleware'
 import userRepository from '../repositories/user.repository'
 
 const usersRouter = Router()
@@ -42,6 +43,13 @@ usersRouter.delete('/users/:uuid', async (req: Request<{uuid: string}>, res: Res
     } catch(err) {
         next(err)
     }
+})
+
+usersRouter.get('/user-profile', jwtAuthenticationMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+
+    const user = req.user;
+    res.json(user)
+
 })
 
 export default usersRouter;
