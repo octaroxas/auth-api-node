@@ -24,10 +24,12 @@ class UserRepository {
 
     async create(user: User): Promise<string> {
         
-        const { username, password } = user
+        const { username, password, email, reg_number, user_type } = user
 
-        const query = `insert into Usuario(username, password) values($1, crypt($2,'secret-hash')) RETURNING uuid`
-        const values = [username, password]
+        const query = `insert into Usuario(username, password, email, reg_number, user_type) values($1, crypt($2,'secret-hash'),$3,$4,$5) RETURNING uuid`
+
+        const values = [username, password, email, reg_number, user_type]
+
         const { rows }  = await db.query<{uuid: string}>(query, values)
 
         const [ newUser ] = rows

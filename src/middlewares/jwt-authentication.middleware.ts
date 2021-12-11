@@ -21,7 +21,6 @@ export default async function jwtAuthenticationMiddleware(req: Request, res: Res
 
         try {
             const tokenPayload = JWT.verify(token,'secret-hash')
-            console.log(tokenPayload)
 
             if(typeof tokenPayload !== 'object' || !tokenPayload.sub) {
                 throw new ForbiddenError('Token invalido!')
