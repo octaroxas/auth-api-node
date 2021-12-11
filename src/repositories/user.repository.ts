@@ -5,7 +5,7 @@ import  DatabaseError from "./../models/errors/database.error.model";
 class UserRepository {
     //Tipo de retorno da função: Array de objetos User
     async findAllUsers():  Promise<User[]> {
-        const query = `select uuid, username from application_user`
+        const query = `select uuid, username from Usuario`
 
         const res = await db.query<User>(query)
         const users = res.rows
@@ -14,7 +14,7 @@ class UserRepository {
 
     async findById(uuid: string): Promise<User>{
 
-        const query = 'SELECT uuid, username from application_user where uuid = $1'
+        const query = 'SELECT uuid, username from Usuario where uuid = $1'
         const values = [ uuid ]
         const res = await db.query(query,values)
         const [ user ] = res.rows
@@ -26,7 +26,7 @@ class UserRepository {
         
         const { username, password } = user
 
-        const query = `insert into application_user(username, password) values($1, crypt($2,'secret-hash')) RETURNING uuid`
+        const query = `insert into Usuario(username, password) values($1, crypt($2,'secret-hash')) RETURNING uuid`
         const values = [username, password]
         const { rows }  = await db.query<{uuid: string}>(query, values)
 
@@ -39,7 +39,7 @@ class UserRepository {
     async update(user: User): Promise<void> {
         const { username, password, uuid } = user;
 
-        const query = `update application_user 
+        const query = `update Usuario 
             set username = $1, password = crypt($2,'secret-hash') 
             where uuid = $3`
 
@@ -52,7 +52,7 @@ class UserRepository {
         try {
 
             const query = `
-            delete from application_user
+            delete from Usuario
             where uuid = $1
         `
         const values = [uuid]
