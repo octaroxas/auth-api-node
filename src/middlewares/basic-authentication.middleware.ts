@@ -23,13 +23,13 @@ export default async function basicAuthenticationMiddleware(req: Request, res: R
         const tokenContent = Buffer.from(token,'base64').toString('utf-8')
 
         // tokenContent = username:password
-        const [username, password] = tokenContent.split(':')
+        const [email, password] = tokenContent.split(':')
 
-        if(!username || !password) {
+        if(!email || !password) {
             throw new ForbiddenError("Credenciais não informadas");
         }
 
-        const user: User|null = await userRepository.getUserByCredentials(username, password)
+        const user: User|null = await userRepository.getUserByCredentials(email, password)
         
         if(!user) {
             throw new ForbiddenError('Usuario ou senha incorretos!')

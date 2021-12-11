@@ -1,7 +1,5 @@
 import Router, { Response, Request, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { DatabaseError } from 'pg-protocol'
-import db from '../database/db'
 import userRepository from '../repositories/user.repository'
 
 const usersRouter = Router()
