@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ForbiddenError from "../models/errors/forbidden.error.model";
+import User from "../models/user.model";
 import userRepository from "../repositories/user.repository";
 
 export default async function basicAuthenticationMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -28,7 +29,7 @@ export default async function basicAuthenticationMiddleware(req: Request, res: R
             throw new ForbiddenError("Credenciais não informadas");
         }
 
-        const user = await userRepository.getUserByCredentials(username, password)
+        const user: User|null = await userRepository.getUserByCredentials(username, password)
         
         if(!user) {
             throw new ForbiddenError('Usuario ou senha incorretos!')

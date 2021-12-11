@@ -67,7 +67,7 @@ class UserRepository {
     async getUserByCredentials(username: string, password: string): Promise<User | null>{
         try {
             const query = `
-            SELECT uuid, username FROM Usuario WHERE username=$1 AND password = crypt($2,'secret-hash');
+            SELECT uuid, username, email FROM Usuario WHERE username=$1 AND password = crypt($2,'secret-hash');
         `
         const values = [username, password]
 
