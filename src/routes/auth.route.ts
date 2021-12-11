@@ -13,6 +13,10 @@ auth.post('/token',basicAuthenticationMiddleware ,async (req: Request, res: Resp
 
         const user = req.user;
 
+        if(!user) {
+            throw new ForbiddenError('Credenciais não informadas!')
+        }
+
         const payload = {username: user?.username}
         const options =  {subject: user?.uuid}
         
