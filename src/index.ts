@@ -3,10 +3,12 @@ import usersRouter from './routes/users.routes';
 import errorHandler from './middlewares/error.handler.middlewares';
 import auth from './routes/auth.route';
 import bearerAuthenticationMiddleware from './middlewares/jwt-authentication.middleware';
+import cors from 'cors'
 
 const PORT = 3333;
 
 const app = express()
+app.use(cors())
 // User json para entender os dados recebidos nas requisições
 app.use(express.json())
 // faz com que parametros passados pela url sejam entendidos, query params por exemplpo
