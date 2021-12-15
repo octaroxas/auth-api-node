@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS Usuario (
   username VARCHAR(45) NOT NULL,
   email CHARACTER VARYING NOT NULL,
   reg_number VARCHAR(14) NOT NULL,
+  profile_pic VARCHAR DEFAULT NULL,
+  profile_cover VARCHAR DEFAULT NULL,
   password VARCHAR NOT NULL,
   user_type INT NOT NULL,
   PRIMARY KEY (uuid),
@@ -56,6 +58,8 @@ INSERT INTO Usuario(
         username, 
         email, 
         reg_number,
+        profile_pic,
+        profile_cover,
         password,
         user_type
     )
@@ -63,6 +67,8 @@ INSERT INTO Usuario(
         'Octacilio',
         'octa.oca44@gmail.com',
         '02485080222',
+        'https://i.ibb.co/Jk3GHd7/git.jpg',
+        'https://i.ibb.co/hy0T2BB/fundo-quiz.jpg',
         crypt('octabebe','secret-hash'),
         1
     )
@@ -71,6 +77,8 @@ INSERT INTO Usuario(
         username, 
         email, 
         reg_number,
+        profile_pic,
+        profile_cover,
         password,
         user_type
     )
@@ -78,6 +86,8 @@ INSERT INTO Usuario(
         'União Animal',
         'uniao@gmail.com',
         '84213898000189',
+        'https://i.ibb.co/RcPq2XT/uniao-profile.png',
+        'https://i.ibb.co/smwcFhg/uniao-cover.png'
         crypt('uniao','secret-hash'),
         2
     )
