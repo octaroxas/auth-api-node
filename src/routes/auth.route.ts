@@ -18,7 +18,14 @@ auth.post('/login',basicAuthenticationMiddleware ,async (req: Request, res: Resp
             throw new ForbiddenError('Credenciais não informadas!')
         }
 
-        const payload = {uuid: user?.uuid, username: user?.username, email: user.email, user_type: user.user_type}
+        const payload = {
+            uuid: user?.uuid, 
+            username: user?.username, 
+            email: user.email, 
+            user_type: user.user_type,
+            profile_pic:user?.profile_pic, 
+            profile_cover: user?.profile_cover
+        }
         const options =  {subject: user?.uuid}
         
         const jwt = JWT.sign(payload,'secret-hash',options)
