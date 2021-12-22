@@ -8,17 +8,24 @@ CREATE TABLE IF NOT EXISTS application_user(
     PRIMARY KEY (uuid)
 );
 
+CREATE TABLE IF NOT EXISTS UserType (
+	type_id SERIAL NOT NULL,
+	type_name VARCHAR(30),
+	PRIMARY KEY (type_id)
+);
+
 CREATE TABLE IF NOT EXISTS Usuario (
-  uuid uuid DEFAULT uuid_generate_v4(),
-  username VARCHAR(45) NOT NULL,
-  email CHARACTER VARYING NOT NULL,
-  reg_number VARCHAR(14) NOT NULL,
-  profile_pic VARCHAR DEFAULT NULL,
-  profile_cover VARCHAR DEFAULT NULL,
-  password VARCHAR NOT NULL,
-  user_type INT NOT NULL,
-  PRIMARY KEY (uuid),
-  FOREIGN KEY (user_type) REFERENCES UserType(type_id)
+	id uuid DEFAULT uuid_generate_v4(),
+	name VARCHAR(45) NOT NULL,
+	email CHARACTER VARYING NOT NULL,
+	reg_number VARCHAR(14) NOT NULL,
+	profile_pic VARCHAR(400) DEFAULT NULL,
+	profile_cover VARCHAR(400) DEFAULT NULL,
+	description_text VARCHAR(500) DEFAULT NULL,
+	passwrd CHARACTER VARYING NOT NULL,
+	user_type INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_type) REFERENCES UserType(type_id)
 );
 
 CREATE TABLE IF NOT EXISTS UserType (
@@ -34,33 +41,19 @@ CREATE TABLE IF NOT EXISTS UserType (
 */
 
 /* Tipos de usuarios inseridos no banco de dados*/
-INSERT INTO UserType(
-    type_id, 
-    type_name
-    )
-    values(
-        1,
-        'FISIC'
-    );
-
-    INSERT INTO UserType(
-    type_id, 
-    type_name
-    )
-    values(
-        2,
-        'ONG'
-    );
+INSERT INTO usertype(type_name)values('P_FISICA');
+INSERT INTO usertype(type_name)values('ONG');
 
 /*INSERT INTO application_user(username, password)values('Octacilio',crypt('oct44','secret-hash'))*/
 
 INSERT INTO Usuario(
-        username, 
+        name, 
         email, 
         reg_number,
         profile_pic,
         profile_cover,
-        password,
+        description_text,
+        passwrd,
         user_type
     )
     values(
@@ -69,25 +62,28 @@ INSERT INTO Usuario(
         '02485080222',
         'https://i.ibb.co/Jk3GHd7/git.jpg',
         'https://i.ibb.co/hy0T2BB/fundo-quiz.jpg',
+        'Estudante de Ciência da Computação',
         crypt('octabebe','secret-hash'),
         1
-    )
+    );
 
     INSERT INTO Usuario(
-        username, 
+        name, 
         email, 
         reg_number,
         profile_pic,
         profile_cover,
-        password,
+        description_text,
+        passwrd,
         user_type
     )
     values(
         'União Animal',
         'uniao@gmail.com',
-        '84213898000189',
+        '40106854000171',
         'https://i.ibb.co/RcPq2XT/uniao-profile.png',
-        'https://i.ibb.co/smwcFhg/uniao-cover.png'
+        'https://i.ibb.co/smwcFhg/uniao-cover.png',
+        'Olá, somos a ONG União Animal, somos uma ONG que reune pessoas que adotam a causa dos animais e buscam cuidá-los e ajudar a encontrar um bom lar para eles. Recentemente resgatamos caezinhos ainda filhotes, mas precisamos ter ração suficiente para alimentá-los, junto aos demais que já estavam sob nossos cuidados. Agradecemos toda ajuda que puder oferecer.',
         crypt('uniao','secret-hash'),
         2
-    )
+    );

@@ -24,11 +24,11 @@ class UserRepository {
 
     async create(user: User): Promise<string> {
         
-        const { username, password, email, reg_number, user_type } = user
+        const { name, passwrd, email, reg_number, user_type } = user
 
-        const query = `insert into Usuario(username, password, email, reg_number, user_type) values($1, crypt($2,'secret-hash'),$3,$4,$5) RETURNING uuid`
+        const query = `insert into Usuario(name, passwrd, email, reg_number, user_type) values($1, crypt($2,'secret-hash'),$3,$4,$5) RETURNING uuid`
 
-        const values = [username, password, email, reg_number, user_type]
+        const values = [name, passwrd, email, reg_number, user_type]
 
         const { rows }  = await db.query<{uuid: string}>(query, values)
 
@@ -39,13 +39,13 @@ class UserRepository {
     }
 
     async update(user: User): Promise<void> {
-        const { username, password, uuid } = user;
+        const { name, passwrd, id } = user;
 
         const query = `update Usuario 
-            set username = $1, password = crypt($2,'secret-hash') 
-            where uuid = $3`
+            set username = $1, passwrd = crypt($2,'secret-hash') 
+            where id = $3`
 
-        const values = [username, password, uuid]
+        const values = [name, passwrd, id]
         db.query(query, values)
     }
 
@@ -55,7 +55,7 @@ class UserRepository {
 
             const query = `
             delete from Usuario
-            where uuid = $1
+            where id = $1
         `
         const values = [uuid]
         await db.query(query, values)
@@ -69,7 +69,7 @@ class UserRepository {
     async getUserByCredentials(email: string, password: string): Promise<User | null>{
         try {
             const query = `
-            SELECT uuid, username, email, user_type, profile_pic, profile_cover FROM Usuario WHERE email=$1 AND password = crypt($2,'secret-hash');
+            SELECT id, name, email, user_type, profile_pic, profile_cover,description_text FROM Usuario WHERE email=$1 AND passwrd = crypt($2,'secret-hash');
         `
         const values = [email, password]
 

@@ -1,8 +1,9 @@
 type User = {
-    uuid?: string;
-    username: string;
+    id?: string;
+    name: string;
     email?:string;
-    password?: string;
+    passwrd?: string;
+    description_text:string;
     reg_number?:string;
     user_type?:number;
     profile_pic?:string; 
