@@ -19,10 +19,11 @@ auth.post('/login',basicAuthenticationMiddleware ,async (req: Request, res: Resp
         }
 
         const payload = {
-            uuid: user?.id, 
-            username: user?.name, 
+            id: user?.id, 
+            name: user?.name, 
             email: user.email, 
             user_type: user.user_type,
+            description_text: user.description_text,
             profile_pic:user?.profile_pic, 
             profile_cover: user?.profile_cover
         }
