@@ -14,7 +14,7 @@ class UserRepository {
 
     async findById(uuid: string): Promise<User>{
 
-        const query = 'SELECT uuid, username, email, user_type, profile_pic, profile_cover from Usuario where uuid = $1'
+        const query = 'SELECT id, name, email, user_type, profile_pic, profile_cover, description_text from Usuario where uuid = $1'
         const values = [ uuid ]
         const res = await db.query(query,values)
         const [ user ] = res.rows
