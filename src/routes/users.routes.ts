@@ -29,9 +29,9 @@ usersRouter.post('/users', async (req: Request, res: Response, next: NextFunctio
 })
 
 usersRouter.put('/users/:uuid', async (req: Request<{uuid: string}>, res: Response, next: NextFunction) => {
-    const uuid = req.params.uuid
-    const { username, password } = req.body
-    await userRepository.update({username, password, uuid})
+    const id = req.params.uuid
+    const { name, passwrd } = req.body
+    await userRepository.update({name, passwrd, id})
     res.status(StatusCodes.OK).json()
 })
 
